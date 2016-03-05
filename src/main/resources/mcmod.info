@@ -1,0 +1,17 @@
+[
+	{
+		"modid": "fishdog5000score",
+		"name": "Fishdog5000's Core",
+		"description": "This mod has common code that is used in all of FishDog5000's mods",
+		"version": "${version}",
+		"mcversion": "${mcversion}",
+		"logoFile": "assets/fishdog5000score/textures/logo.png",
+		"url": "http://minecraft.curseforge.com/projects/fishdog5000s-core",
+		"updateUrl": "",
+		"authorList": ["FishDog5000"],
+		"credits": "",
+		"parent": "",
+		"screenshots": [],
+		"dependencies": []
+	}
+]

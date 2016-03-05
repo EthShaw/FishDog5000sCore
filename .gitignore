@@ -1,0 +1,11 @@
+/.gradle
+/build
+/run
+/out
+/.idea
+/atlassian-ide-plugin.xml
+/*.ipr
+/*.iws
+/*.iml
+*.jar
+!/gradle/wrapper/gradle-wrapper.jar

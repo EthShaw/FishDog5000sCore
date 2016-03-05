@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "fishdog5000score:tile.BlockPowerBlock"
+    }
+  }
+}
