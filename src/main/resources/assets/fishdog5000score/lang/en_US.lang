@@ -1,1 +1,3 @@
-tile.fishdog5000score:powerblock.name=Power Block
+tile.fishdog5000score.powerblock.name=Power Block
+item.fishdog5000score.testitem.lore=Line 1 has some things on it\nand so does line 2.
+item.fishdog5000score.testitem.name=Test Item

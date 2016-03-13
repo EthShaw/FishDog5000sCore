@@ -30,7 +30,7 @@ import net.fishdog5000.core.FishdogsCore;*/
 public class NEISupportPluginConfig// implements IConfigureNEI
 {
     /*@Override
-	public void loadConfig()
+    public void loadConfig()
 	{
 		FishdogsCore.logger().info("Initializing " + getName() + "...");
 

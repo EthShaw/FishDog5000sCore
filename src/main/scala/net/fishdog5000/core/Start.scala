@@ -21,24 +21,22 @@
   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   * SOFTWARE.
   */
-package net.fishdog5000.core.basestuff
+package net.fishdog5000.core
 
-import net.minecraft.creativetab.CreativeTabs
+import javax.swing.{JOptionPane, UIManager}
 
-class ItemDurability(unlocalizedname: String, tab: CreativeTabs, durability: Int, lore: Boolean, MODID: String) extends BaseItem(unlocalizedname, tab, lore, MODID) {
-    var enchantability = 0
 
-    setMaxDamage(durability)
-    setMaxStackSize(1)
-
-    def this(unlocalizedname: String, tab: CreativeTabs, durability: Int, MODID: String) =
-        this(unlocalizedname, tab, durability, false, MODID)
-
-    def setEnchantability(enchant: Int): ItemDurability = {
-        enchantability = enchant
-        this
+object Start {
+    def main(args: Array[String]) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
+        }
+        catch {
+            case e: Exception =>
+                e.printStackTrace()
+        }
+        val msg = "You can't run this jar file. You are supposed to put it in the Minecraft mods folder!"
+        System.out.println(msg)
+        JOptionPane.showMessageDialog(null, msg, "ERROR", JOptionPane.ERROR_MESSAGE)
     }
-
-    override def getItemEnchantability = enchantability
-
 }

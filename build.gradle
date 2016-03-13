@@ -6,9 +6,9 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-		maven {
-			url "https://plugins.gradle.org/m2/"
-		}
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
@@ -39,11 +39,32 @@ file "build.properties" withReader {
     prop.load(it)
     ext.config = new ConfigSlurper().parse prop
 }
+
 ext.buildNumber = 0
 
+//Load the build number config if it exists
+ext.confFile = file("build_number.properties")
+if (confFile.exists()) {
+    confFile.withReader {
+        ext.prop = new Properties()
+        prop.load(it)
+        ext.buildNumber = prop['build_number'].toInteger()
+        if (ext.buildNumber == null)
+            ext.buildNumber = 0
+        prop['build_number'] = (ext.buildNumber + 1).toString()
+    }
+}
+
 archivesBaseName = config.core_archivesBaseName
-version = config.core_major + "." + config.core_minor + "." + config.core_patch + "-" + config.core_release_type + "+" + buildNumber
+version = config.core_major + "." + config.core_minor + "." + config.core_patch + "-" + config.core_release_type + "+" + ext.buildNumber
 group = config.group
+
+
+build {
+    prop.store(confFile.newWriter(), null)
+}
+
+build.dependsOn licenseFormat
 
 minecraft {
     version = config.minecraft_version + "-" + config.forge_version
@@ -56,11 +77,10 @@ minecraft {
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
     mappings = config.mappings
-    
+
     replaceIn 'src/main/scala/net/fishdog5000/core/FishdogsCore.scala'
     replace "@COREVERSION@", project.version
     replace "@MCVERSION@", config.minecraft_version
-    replace "@FULLVERSION@", project.version
     replace ")//@DEPEND@//(", ", "
     replace "@FORGEVERSION@", config.forge_version
 
@@ -72,6 +92,15 @@ repositories {
     maven {
         url "http://dvs1.progwml6.com/files/maven"
     }
+}
+
+task deobfJar(type: Jar) {
+    from(sourceSets.main.output)
+    archiveName = "${archivesBaseName}-${version}-deobf.jar"
+}
+
+artifacts {
+    archives deobfJar
 }
 
 sourceSets {
@@ -102,18 +131,20 @@ idea {
         downloadJavadoc = true
         downloadSources = true
     }
+    project {
+        languageLevel = '1.7'
+    }
 }
 
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
-    inputs.property "url", config.core_url
 
     // replace the versions in mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        expand 'version': project.version, 'mcversion': config.minecraft_version, 'url': config.core_url
+        expand 'version': project.version, 'mcversion': config.minecraft_version
     }
 
     // copy everything else, thats not the mcmod.info

@@ -39,7 +39,7 @@ import java.util.List;*/
 public class NEIDurabilityCraftingHandlerShapeless// extends ShapelessRecipeHandler
 {
     /*@Override
-	public String getRecipeName()
+    public String getRecipeName()
 	{
 		return StatCollector.translateToLocal("nei.recipe.shapeless");
 	}

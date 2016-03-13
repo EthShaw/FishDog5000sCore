@@ -38,7 +38,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;*/
 public class NEIDurabilityCraftingHandler// extends ShapedRecipeHandler
 {
     /*@Override
-	public void loadCraftingRecipes(ItemStack result)
+    public void loadCraftingRecipes(ItemStack result)
 	{
 		for (Object o : CraftingManager.getInstance().getRecipeList())
 		{
