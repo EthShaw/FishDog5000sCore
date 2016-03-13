@@ -1,29 +1,27 @@
 /**
- * The MIT License (MIT)
- *
- * Copyright (c) 2016 FishDog5000
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+  * The MIT License (MIT)
+  *
+  * Copyright (c) 2016 FishDog5000
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to deal
+  * in the Software without restriction, including without limitation the rights
+  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  * copies of the Software, and to permit persons to whom the Software is
+  * furnished to do so, subject to the following conditions:
+  *
+  * The above copyright notice and this permission notice shall be included in all
+  * copies or substantial portions of the Software.
+  *
+  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  * SOFTWARE.
+  */
 package net.fishdog5000.core
-
-import java.util
 
 import net.fishdog5000.core.basestuff.{IBaseBlock, IBaseItem}
 import net.fishdog5000.core.handler._
@@ -32,12 +30,11 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.model.{ModelBakery, ModelResourceLocation}
 import net.minecraft.entity.Entity
 import net.minecraft.entity.effect.EntityLightningBolt
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.{Blocks, Items}
 import net.minecraft.item.crafting.{CraftingManager, IRecipe}
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.server.MinecraftServer
-import net.minecraft.util.{ChatComponentTranslation, IChatComponent, StatCollector}
+import net.minecraft.util.{ChatComponentTranslation, IChatComponent}
 import net.minecraft.world.World
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod.EventHandler
@@ -48,17 +45,15 @@ import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import org.apache.logging.log4j.Level
 
 //@formatter:off
-@Mod(modid = FishdogsCore.MODID, name = "Fishdog5000's Core", version = FishdogsCore.FULL_VERSION, modLanguage = "scala")//@DEPEND@//(dependencies="required-after:Forge@[@FORGEVERSION@,)")
+@Mod(modid = FishdogsCore.MODID, name = "Fishdog5000's Core", version = FishdogsCore.VERSION, modLanguage = "scala")//@DEPEND@//(dependencies="required-after:Forge@[@FORGEVERSION@,)")
 //@formatter:on
 object FishdogsCore {
-    final val BASE_VERSION = "@COREVERSION@"
-    final val FULL_VERSION = "@FULLVERSION@"
+    final val VERSION = "@FULLVERSION@"
     final val MODID = "fishdog5000score"
     final val MCVERSION = "@MCVERSION@"
-    //var item: BaseItem = _
-    //var item2: BaseItem = _
-    var herobrineblock: BlockPowerBlock = _
-    var registeredpower: Boolean = false
+    var powerblock: BlockPowerBlock = _
+    var registeredpower = false
+    //var testitem: BaseItem = _
 
     @SidedProxy(clientSide = "net.fishdog5000.core.handler.ClientProxy", serverSide = "net.fishdog5000.core.handler.ServerProxy", modId = MODID)
     var proxy: CommonProxy = _
@@ -68,11 +63,10 @@ object FishdogsCore {
         Log.logger = event.getModLog
         Log.info("###################### FISHDOG5000'S CORE STARTING ######################")
 
-        Log.info("attempting to add version checker support...")
-        FMLInterModComms.sendRuntimeMessage(MODID, "VersionChecker", "addVersionCheck", CoreConstants.VERSIONS_URL)
+        //Log.info("attempting to add version checker support...")
+        //FMLInterModComms.sendRuntimeMessage(MODID, "VersionChecker", "addVersionCheck", CoreConstants.VERSIONS_URL)
         MinecraftForge.EVENT_BUS.register(FishdogsCoreEventHandler)
 
-        //logger.info("preparing configuration file...")
         Log.info("registering a few basic things in the ore dictionary...")
         OreDictionaryHandler.registerItemOres()
 
@@ -84,31 +78,28 @@ object FishdogsCore {
         proxy.init()
         proxy.registerRenderers()
 
+        //testitem = new BaseItem("testitem", CreativeTabs.tabMaterials, true, MODID)
+        //registerItem(testitem, MODID)
 
         if (registeredpower) {
-            herobrineblock = new BlockPowerBlock(Material.iron)
+            powerblock = new BlockPowerBlock(Material.iron)
 
-            registerBlock(herobrineblock, "tile.BlockPowerBlock", MODID)
+            registerBlock(powerblock, "BlockPowerBlock", MODID)
 
-            GameRegistry.addRecipe(new ItemStack(herobrineblock), "XXX", "***", "XXX",
+            GameRegistry.addRecipe(new ItemStack(powerblock), "XXX", "***", "XXX",
                 new Character('X'), Blocks.redstone_block, new Character('*'), Items.coal)
-            GameRegistry.addRecipe(new ItemStack(herobrineblock), "XXX", "***", "XXX",
+            GameRegistry.addRecipe(new ItemStack(powerblock), "XXX", "***", "XXX",
                 new Character('X'), Blocks.redstone_block, new Character('*'), new ItemStack(Items.coal, 1, 1))
         }
-
-        //item = new BaseItem(MODID + ":default", CreativeTabs.tabTransport, MODID)
-        //GameRegistry.registerItem(item, MODID + ":default")
-        //Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(MODID + ":default", "inventory"))
-
-        //item2 = new BaseItem("item2", CreativeTabs.tabTransport, MODID).setUsesHDTextures()
-        //GameRegistry.registerItem(item2, "item2")
-        //Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item2, 0, new ModelResourceLocation(MODID + ":item2", "inventory"))
-
-        //item2.setHDString(MODID + ":test1")
     }
 
     def registerBlock(block: IBaseBlock, name: String, MODID: String): Unit =
         registerBlock(block, name, MODID, 0)
+
+    def registerBlock(block: IBaseBlock, name: String, MODID: String, metadata: Int): Unit = {
+        GameRegistry.registerBlock(block, name)
+        proxy.registerBlockRenderer(block, metadata, name, MODID)
+    }
 
     @EventHandler
     def postInit(event: FMLPostInitializationEvent) = {
@@ -132,11 +123,6 @@ object FishdogsCore {
 
     def registerBlock(block: IBaseBlock, MODID: String, meta: Int): Unit =
         registerBlock(block, block.getName, MODID, meta)
-
-    def registerBlock(block: IBaseBlock, name: String, MODID: String, metadata: Int): Unit = {
-        GameRegistry.registerBlock(block, name)
-        proxy.registerBlockRenderer(block, metadata, name, MODID)
-    }
 
     def registerBlock(block: IBaseBlock, MODID: String): Unit =
         registerBlock(block, block.getName, MODID, 0)
@@ -168,34 +154,6 @@ object FishdogsCore {
                 i -= 0
             }
             i += 1
-        }
-    }
-
-    def addInformation(name: String, player: EntityPlayer, list: java.util.List[String], adv: Boolean, precache: String, postcache: java.util.List[String]): java.util.List[String] = {
-        val lore = StatCollector.translateToLocal(name + ".lore")
-        if (precache.equals(lore)) {
-            if (postcache != null)
-                list.addAll(postcache)
-            null
-        }
-        else {
-            var i = 0
-            var str = ""
-            val listy: java.util.List[String] = new util.ArrayList[String]()
-            while (i < lore.length) {
-                if (lore(i) == '\\') {
-                    i += 1
-                    listy.add(str)
-                    str = ""
-                }
-                else {
-                    str += lore(i)
-                }
-                i += 1
-            }
-            listy.add(str)
-            list.addAll(listy)
-            listy
         }
     }
 
