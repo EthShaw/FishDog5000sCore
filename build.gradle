@@ -122,7 +122,7 @@ jar {
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_${config.minecraft_version}:${config.JEI_version}"
+    compile "mezz.jei:jei_${config.minecraft_version}:${config.JEI_version}"
 }
 
 idea {

@@ -26,12 +26,13 @@ package net.fishdog5000.core
 import net.fishdog5000.core.basestuff.IBaseBlock
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
-import net.minecraft.block.state.pattern.{BlockPattern, BlockStateHelper, FactoryBlockPattern}
+import net.minecraft.block.state.pattern.{BlockPattern, BlockStateMatcher, FactoryBlockPattern}
 import net.minecraft.block.state.{BlockWorldState, IBlockState}
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.monster.EntityIronGolem
 import net.minecraft.init.Blocks
-import net.minecraft.util.{BlockPos, EnumParticleTypes}
+import net.minecraft.util.EnumParticleTypes
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class BlockPowerBlock(material: Material) extends Block(material) with IBaseBlock {
@@ -133,7 +134,7 @@ class BlockPowerBlock(material: Material) extends Block(material) with IBaseBloc
 
     protected def getGolemBasePattern: BlockPattern = {
         if (golemBasePattern == null)
-            golemBasePattern = FactoryBlockPattern.start().aisle("~ ~", "###", "~#~").where('#', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.iron_block))).where('~', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.air))).build()
+            golemBasePattern = FactoryBlockPattern.start().aisle("~ ~", "###", "~#~").where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.iron_block))).where('~', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.air))).build()
 
         golemBasePattern
     }

@@ -26,8 +26,8 @@ package net.fishdog5000.core.handler
 import net.fishdog5000.core.FishdogsCore
 import net.minecraft.block.Block
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.client.renderer.entity.RenderTNTPrimed
-import net.minecraft.client.resources.model.ModelResourceLocation
 import net.minecraft.item.Item
 import net.minecraftforge.fml.client.registry.RenderingRegistry
 import net.minecraftforge.fml.common.registry.EntityRegistry

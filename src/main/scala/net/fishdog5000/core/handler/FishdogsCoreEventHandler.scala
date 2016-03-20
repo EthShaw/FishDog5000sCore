@@ -25,6 +25,7 @@ package net.fishdog5000.core.handler
 
 import net.fishdog5000.core.MultiTextureModel
 import net.minecraftforge.client.event.ModelBakeEvent
+import net.minecraftforge.event.entity.player.EntityInteractEvent
 import net.minecraftforge.fml.common.eventhandler.{EventPriority, SubscribeEvent}
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
@@ -34,12 +35,22 @@ object FishdogsCoreEventHandler {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent(priority = EventPriority.LOWEST)
     def onModelBake(event: ModelBakeEvent) = {
+        val modelregistry = event.getModelRegistry
         for (model <- multimodels) {
             val modelsloc = model.getBaseModelLoc
             model.modelReload(event)
-            event.modelRegistry.putObject(modelsloc, model)
+            modelregistry.putObject(modelsloc, model)
         }
     }
+
+    /*@SubscribeEvent TEST METHOD
+    def testThingEvennt(e: EntityInteractEvent) = {
+        for (model <- multimodels)
+            if (Math.random() > 0.5)
+                model.setCurrentTexture("minecraft:diamond")
+            else
+                model.setCurrentTexture("minecraft:flint")
+    }*/
 
     @SideOnly(Side.CLIENT)
     def registerMultiTexture(model: MultiTextureModel) =

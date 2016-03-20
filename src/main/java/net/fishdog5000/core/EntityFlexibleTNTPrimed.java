@@ -61,7 +61,7 @@ public class EntityFlexibleTNTPrimed extends EntityTNTPrimed {
             motionY *= -0.5D;
         }
 
-        if (fuse-- <= 0) {
+        if (/*fuse-- <= 0 todo fix*/ true) {
             setDead();
 
             if (!worldObj.isRemote) {

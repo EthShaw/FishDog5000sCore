@@ -26,11 +26,11 @@ package net.fishdog5000.core.basestuff
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.{ItemFood, ItemStack}
-import net.minecraft.potion.PotionEffect
+import net.minecraft.potion.{Potion, PotionEffect}
 import net.minecraft.world.World
 
 class ItemBasicFood(unlocalizedname: String, tab: CreativeTabs, healAmount: Int, saturation: Float,
-                    canFeedToWolf: Boolean, effects: Array[Int], duration: Array[Int], amplifiers: Array[Int], probability: Float,
+                    canFeedToWolf: Boolean, effects: Array[Potion], duration: Array[Int], amplifiers: Array[Int], probability: Float,
                     lore: Boolean, MODID: String) extends ItemFood(healAmount, saturation, canFeedToWolf) with IBaseItem {
 
     setUnlocalizedName(MODID + "." + unlocalizedname)
@@ -44,7 +44,7 @@ class ItemBasicFood(unlocalizedname: String, tab: CreativeTabs, healAmount: Int,
         multitexture.setCurrentTexture(MODID + ":" + texture)
 
     def this(unlocalizedname: String, tab: CreativeTabs, healAmount: Int, saturation: Float,
-             canFeedToWolf: Boolean, effects: Array[Int], duration: Array[Int], amplifiers: Array[Int], probability: Float,
+             canFeedToWolf: Boolean, effects: Array[Potion], duration: Array[Int], amplifiers: Array[Int], probability: Float,
              MODID: String) =
         this(unlocalizedname, tab, healAmount, saturation, canFeedToWolf, effects, duration, amplifiers, probability, false, MODID)
 

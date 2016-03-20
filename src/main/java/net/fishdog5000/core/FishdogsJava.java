@@ -24,7 +24,7 @@
 package net.fishdog5000.core;
 
 import net.minecraft.block.state.pattern.BlockPattern;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class FishdogsJava {

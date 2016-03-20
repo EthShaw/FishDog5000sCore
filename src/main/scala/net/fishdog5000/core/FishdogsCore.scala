@@ -23,22 +23,23 @@
   */
 package net.fishdog5000.core
 
-import net.fishdog5000.core.basestuff.{IBaseBlock, IBaseItem}
+import net.fishdog5000.core.basestuff.{BaseItem, IBaseBlock, IBaseItem}
 import net.fishdog5000.core.handler._
 import net.minecraft.block.material.Material
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.model.{ModelBakery, ModelResourceLocation}
+import net.minecraft.client.renderer.block.model.{ModelBakery, ModelResourceLocation}
+import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.Entity
 import net.minecraft.entity.effect.EntityLightningBolt
 import net.minecraft.init.{Blocks, Items}
 import net.minecraft.item.crafting.{CraftingManager, IRecipe}
 import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.server.MinecraftServer
-import net.minecraft.util.{ChatComponentTranslation, IChatComponent}
+import net.minecraft.util.text.{ITextComponent, TextComponentTranslation}
 import net.minecraft.world.World
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod.EventHandler
-import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLInterModComms, FMLPostInitializationEvent, FMLPreInitializationEvent, FMLServerStartingEvent}
+import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent, FMLServerStartingEvent}
 import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.common.{Mod, SidedProxy}
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
@@ -53,7 +54,7 @@ object FishdogsCore {
     final val MCVERSION = "@MCVERSION@"
     var powerblock: BlockPowerBlock = _
     var registeredpower = false
-    //var testitem: BaseItem = _
+    var testitem: IBaseItem = _
 
     @SidedProxy(clientSide = "net.fishdog5000.core.handler.ClientProxy", serverSide = "net.fishdog5000.core.handler.ServerProxy", modId = MODID)
     var proxy: CommonProxy = _
@@ -78,8 +79,9 @@ object FishdogsCore {
         proxy.init()
         proxy.registerRenderers()
 
-        //testitem = new BaseItem("testitem", CreativeTabs.tabMaterials, true, MODID)
-        //registerItem(testitem, MODID)
+        testitem = new BaseItem("testitem", CreativeTabs.tabMaterials, true, MODID)
+        registerItem(testitem, MODID)
+        setItemMultitexture(testitem, "item.testitem", MODID, Array("minecraft:flint", "minecraft:diamond"), "minecraft:diamond")
 
         if (registeredpower) {
             powerblock = new BlockPowerBlock(Material.iron)
@@ -162,18 +164,18 @@ object FishdogsCore {
     def serverLoad(event: FMLServerStartingEvent) =
         event.registerServerCommand(OreDictionaryLister)
 
-    def lightning(chatmessage: String, x: Double, y: Double, z: Double, world: World, times: Int) {
+    def lightning(chat_msg: String, x: Double, y: Double, z: Double, world: World, times: Int) {
         for (i <- 0 until times)
-            world.addWeatherEffect(new EntityLightningBolt(world, x, y, z))
-        if (chatmessage != null)
-            chat(chatmessage)
+            world.addWeatherEffect(new EntityLightningBolt(world, x, y, z, false))
+        if (chat_msg != null)
+            chat(world.getMinecraftServer, chat_msg)
     }
 
-    def chat(msg: String): Unit =
-        chat(new ChatComponentTranslation(msg))
+    def chat(server: MinecraftServer, msg: String): Unit =
+        chat(server, new TextComponentTranslation(msg))
 
-    def chat(msg: IChatComponent) =
-        MinecraftServer.getServer.getConfigurationManager.sendChatMsg(msg)
+    def chat(server: MinecraftServer, msg: ITextComponent) =
+        server.getPlayerList.sendChatMsg(msg)
 
     def registerItem(item: IBaseItem, MODID: String): Unit = registerItem(item, item.getName, MODID, 0)
 

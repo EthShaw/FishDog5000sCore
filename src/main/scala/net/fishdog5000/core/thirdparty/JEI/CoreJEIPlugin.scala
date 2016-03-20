@@ -29,7 +29,8 @@ import mezz.jei.api._
 import net.fishdog5000.core.Log
 import net.fishdog5000.core.basestuff.DurabilityItemCrafting
 
-@JEIPlugin class CoreJEIPlugin extends IModPlugin {
+@JEIPlugin
+class CoreJEIPlugin extends IModPlugin {
     def onJeiHelpersAvailable(jeiHelpers: IJeiHelpers) {
     }
 

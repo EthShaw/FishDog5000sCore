@@ -28,20 +28,21 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.{NBTTagList, NBTTagString}
-import net.minecraft.util.ChatComponentTranslation
+import net.minecraft.server.MinecraftServer
+import net.minecraft.util.text.TextComponentTranslation
 import net.minecraftforge.oredict.OreDictionary
 
 
 object OreDictionaryLister extends CommandBase with ICommand {
     //private static ChatStyle styleRed = new ChatStyle().setColor(EnumChatFormatting.RED)
 
-    private var aliases = List("getOreDictionary")
+    //private var aliases = List("getOreDictionary")
 
     def getCommandName = "getOreDictionary"
 
     def getCommandUsage(sender: ICommandSender): String = "getOreDictionary"
 
-    def processCommand(icommandsender: ICommandSender, args: Array[String]) = {
+    def execute(server: MinecraftServer, icommandsender: ICommandSender, args: Array[String]) = {
         /*String str
         if(args.length < 1)
         {
@@ -108,7 +109,7 @@ object OreDictionaryLister extends CommandBase with ICommand {
 
                 player.inventory.addItemStackToInventory(book)
             case _ =>
-                icommandsender.addChatMessage(new ChatComponentTranslation("This is a player only Command!"))
+                icommandsender.addChatMessage(new TextComponentTranslation("This is a player only Command!"))
         }
     }
 

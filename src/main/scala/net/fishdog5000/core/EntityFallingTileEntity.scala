@@ -25,11 +25,12 @@ package net.fishdog5000.core
 
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
-import net.minecraft.block.{Block, BlockFalling, ITileEntityProvider}
+import net.minecraft.block.{BlockFalling, ITileEntityProvider}
 import net.minecraft.entity.item.EntityFallingBlock
 import net.minecraft.init.Blocks
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.{BlockPos, EnumFacing}
+import net.minecraft.util.EnumFacing
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class EntityFallingTileEntity(world: World, x: Double, y: Double, z: Double, block: IBlockState) extends EntityFallingBlock(world, x, y, z, block) {
@@ -43,17 +44,14 @@ class EntityFallingTileEntity(world: World, x: Double, y: Double, z: Double, blo
       */
     override def onUpdate() {
         val blockstate = getBlock
-        var block: Block = null
 
         if (blockstate == null) {
             setDead()
             return
         }
-        else {
-            block = blockstate.getBlock
-        }
+        val block = blockstate.getBlock
 
-        if (block.getMaterial == Material.air) {
+        if (blockstate.getMaterial == Material.air) {
             setDead()
         }
         else {
@@ -85,23 +83,29 @@ class EntityFallingTileEntity(world: World, x: Double, y: Double, z: Double, blo
                 pos = new BlockPos(this)
 
                 if (onGround) {
+                    if (worldObj.isAirBlock(new BlockPos(posX, posY - 0.009999999776482582D, posZ)))
+                        if (BlockFalling.canFallThrough(worldObj.getBlockState(new BlockPos(posX, posY - 0.009999999776482582D, posZ)))) {
+                            onGround = false
+                            return
+                        }
+
                     motionX *= 0.699999988079071D
                     motionZ *= 0.699999988079071D
                     motionY *= -0.5D
 
-                    if (this.worldObj.getBlockState(pos).getBlock != Blocks.piston_extension) {
+                    if (worldObj.getBlockState(pos).getBlock != Blocks.piston_extension) {
                         setDead()
-                        if (worldObj.canBlockBePlaced(block, pos, true, EnumFacing.UP, null, null) && !BlockFalling.canFallInto(worldObj, pos.down) && worldObj.setBlockState(pos, blockstate, 3)) {
+                        if (worldObj.canBlockBePlaced(block, pos, true, EnumFacing.UP, null, null) && !BlockFalling.canFallThrough(worldObj.getBlockState(pos.down)) && worldObj.setBlockState(pos, blockstate, 3)) {
                             block match {
                                 case falling: BlockFalling =>
-                                    falling.onEndFalling(this.worldObj, pos)
+                                    falling.onEndFalling(worldObj, pos)
                                 case _ =>
                             }
                             if (tileEntityData != null)
                                 placeTileEntity(pos, tileEntityData)
                         }
                         else if (shouldDropItem && worldObj.getGameRules.getBoolean("doTileDrops")) {
-                            val items = getBlock.getBlock.getDrops(worldObj, pos, getBlock, 0)
+                            val items = blockstate.getBlock.getDrops(worldObj, pos, getBlock, 0)
                             for (i <- 0 until items.size)
                                 entityDropItem(items.get(i), 0.0f)
                             dropTileEntity(pos)
@@ -114,12 +118,10 @@ class EntityFallingTileEntity(world: World, x: Double, y: Double, z: Double, blo
                         for (i <- 0 until items.size)
                             entityDropItem(items.get(i), 0.0f)
                         if (!(pos.getY < 1)) {
-                            if (pos.getY > 256) {
+                            if (pos.getY > 256)
                                 dropTileEntity(new BlockPos(pos.getX, 255, pos.getZ))
-                            }
-                            else {
+                            else
                                 dropTileEntity(pos)
-                            }
                         }
                     }
                     setDead()
@@ -165,7 +167,7 @@ class EntityFallingTileEntity(world: World, x: Double, y: Double, z: Double, blo
                 val iterator = tileEntityTag.getKeySet.iterator
 
                 while (iterator.hasNext) {
-                    val s: String = iterator.next()
+                    val s = iterator.next()
                     val nbtbase = tileEntityTag.getTag(s)
 
                     if (!s.equals("x") && !s.equals("y") && !s.equals("z"))
@@ -181,5 +183,6 @@ class EntityFallingTileEntity(world: World, x: Double, y: Double, z: Double, blo
     /**
       * Returns true if other Entities should be prevented from moving through this Entity.
       */
+    //todo ?
     override def canBeCollidedWith = true
 }

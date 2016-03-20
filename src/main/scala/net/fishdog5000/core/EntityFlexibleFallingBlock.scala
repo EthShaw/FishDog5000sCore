@@ -26,7 +26,7 @@ package net.fishdog5000.core
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.item.{EntityFallingBlock, EntityItem}
 import net.minecraft.item.ItemStack
-import net.minecraft.util.BlockPos
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 class EntityFlexibleFallingBlock(world: World, x: Double, y: Double, z: Double, block: IBlockState) extends EntityFallingBlock(world, x, y, z, block) {

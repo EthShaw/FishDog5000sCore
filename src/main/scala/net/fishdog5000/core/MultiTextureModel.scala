@@ -23,26 +23,29 @@
   */
 package net.fishdog5000.core
 
+import java.util
+
 import net.fishdog5000.core.handler.FishdogsCoreEventHandler
-import net.minecraft.client.resources.model.{IBakedModel, ModelResourceLocation}
+import net.minecraft.block.state.IBlockState
+import net.minecraft.client.renderer.block.model._
+import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
+import net.minecraft.world.World
 import net.minecraftforge.client.event.ModelBakeEvent
-import net.minecraftforge.client.model.{IFlexibleBakedModel, ISmartItemModel}
 
-class MultiTextureModel(texture_strs: Array[String], default_texture: String, baseloc: ModelResourceLocation) extends ISmartItemModel {
+class MultiTextureModel(texture_strs: Array[String], default_texture: String, baseloc: ModelResourceLocation) extends ItemOverrideList(new util.ArrayList[ItemOverride]()) with IBakedModel {
     var currentTexture = default_texture
-    var basemodels: Map[String, IFlexibleBakedModel] = Map.empty
-    var currentModel: IFlexibleBakedModel = null
+    var basemodels: Map[String, IBakedModel] = Map.empty
+    var currentModel: IBakedModel = null
 
     def modelReload(event: ModelBakeEvent) = {
         basemodels = Map.empty
         MultiTextureModels.reloadModels(this, event)
-        //super.setParent(basemodels.get(currentTexture).get)
         currentModel = basemodels.get(currentTexture).get
     }
 
-    def addModel(str: String, model: IFlexibleBakedModel) =
+    def addModel(str: String, model: IBakedModel) =
         basemodels += (str -> model)
 
     def getTextureString = currentTexture
@@ -66,13 +69,17 @@ class MultiTextureModel(texture_strs: Array[String], default_texture: String, ba
 
     override def isGui3d = currentModel.isGui3d
 
-    override def getFaceQuads(face: EnumFacing) = currentModel.getFaceQuads(face)
-
-    override def getGeneralQuads = currentModel.getGeneralQuads
-
-    override def handleItemState(itemStack: ItemStack): IBakedModel = currentModel
+    def getQuads(state: IBlockState, side: EnumFacing, rand: Long) = currentModel.getQuads(state, side, rand)
 
     private[core] def getBaseModelLoc: ModelResourceLocation = baseloc
+
+    override def getOverrides: ItemOverrideList = this
+
+    override def applyOverride(stack: ItemStack, worldIn: World, entityIn: EntityLivingBase) =
+        new ModelResourceLocation(currentTexture, "inventory")
+
+    override def handleItemState(originalModel: IBakedModel, stack: ItemStack, world: World, entity: EntityLivingBase) =
+        currentModel
 }
 
 object MultiTextureModels {
@@ -84,6 +91,6 @@ object MultiTextureModels {
 
     def reloadModels(multimodel: MultiTextureModel, event: ModelBakeEvent) {
         for (model <- multimodel.getTextureStrings)
-            multimodel.addModel(model, event.modelManager.getModel(new ModelResourceLocation(model, "inventory")).asInstanceOf[IFlexibleBakedModel])
+            multimodel.addModel(model, event.getModelManager.getModel(new ModelResourceLocation(model, "inventory")))
     }
 }
