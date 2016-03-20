@@ -31,23 +31,15 @@ import net.fishdog5000.core.basestuff.DurabilityItemCrafting
 
 @JEIPlugin
 class CoreJEIPlugin extends IModPlugin {
-    def onJeiHelpersAvailable(jeiHelpers: IJeiHelpers) {
-    }
-
-    def onItemRegistryAvailable(itemRegistry: IItemRegistry) {
-    }
-
-    def register(@Nonnull registry: IModRegistry) {
+    override def register(@Nonnull registry: IModRegistry) {
         Log.info("Initializing FishDog5000's Core JEI plugin...")
     }
 
-    def onRecipeRegistryAvailable(@Nonnull recipeRegistry: IRecipeRegistry) {
+    override def onRuntimeAvailable(@Nonnull jeiRuntime: IJeiRuntime) = {
         import scala.collection.JavaConversions._
+        val recipeRegistry = jeiRuntime.getRecipeRegistry
         for (recipe <- DurabilityItemCrafting.recipes)
             recipeRegistry.addRecipe(recipe.parent)
         DurabilityItemCrafting.recipes = null
-    }
-
-    def onRuntimeAvailable(@Nonnull jeiRuntime: IJeiRuntime) {
     }
 }

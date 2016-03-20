@@ -1,3 +1,6 @@
 {
-  "parent": "item/flint"
+  "parent": "fishdog5000score:item/BaseItemModel",
+  "textures": {
+    "layer0": "minecraft:items/diamond"
+  }
 }

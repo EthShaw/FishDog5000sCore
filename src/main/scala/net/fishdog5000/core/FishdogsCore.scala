@@ -46,15 +46,15 @@ import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 import org.apache.logging.log4j.Level
 
 //@formatter:off
-@Mod(modid = FishdogsCore.MODID, name = "Fishdog5000's Core", version = FishdogsCore.VERSION, modLanguage = "scala")//@DEPEND@//(dependencies="required-after:Forge@[@FORGEVERSION@,)")
+@Mod(modid = FishdogsCore.MODID, name = "Fishdog5000's Core", acceptedMinecraftVersions = "", version = FishdogsCore.VERSION, modLanguage = "scala")
 //@formatter:on
 object FishdogsCore {
-    final val VERSION = "@FULLVERSION@"
+    final val VERSION = "@COREVERSION@"
     final val MODID = "fishdog5000score"
     final val MCVERSION = "@MCVERSION@"
     var powerblock: BlockPowerBlock = _
     var registeredpower = false
-    var testitem: IBaseItem = _
+    //var testitem: IBaseItem = _
 
     @SidedProxy(clientSide = "net.fishdog5000.core.handler.ClientProxy", serverSide = "net.fishdog5000.core.handler.ServerProxy", modId = MODID)
     var proxy: CommonProxy = _
@@ -79,9 +79,9 @@ object FishdogsCore {
         proxy.init()
         proxy.registerRenderers()
 
-        testitem = new BaseItem("testitem", CreativeTabs.tabMaterials, true, MODID)
-        registerItem(testitem, MODID)
-        setItemMultitexture(testitem, "item.testitem", MODID, Array("minecraft:flint", "minecraft:diamond"), "minecraft:diamond")
+        //testitem = new BaseItem("testitem", CreativeTabs.tabMaterials, true, MODID)
+        //registerItem(testitem, MODID)
+        //setItemMultitexture(testitem, "item.testitem", MODID, Array("minecraft:flint", "minecraft:diamond"), "minecraft:diamond")
 
         if (registeredpower) {
             powerblock = new BlockPowerBlock(Material.iron)

@@ -71,7 +71,7 @@ trait IBaseItem extends Item {
 
     @SideOnly(Side.CLIENT)
     override def addInformation(stack: ItemStack, player: EntityPlayer, start_list: java.util.List[String], adv: Boolean) {
-        if (hasLore) {
+        if (hasLore) {//todo change to Minecraft.getMinecraft().getResourceManager()).registerReloadListener(new IResourceManagerReloadListener() { like https://github.com/mezz/JustEnoughItems/pull/118/files
             if (lastLangUpdate != I18n.getLastTranslationUpdateTimeInMilliseconds) {
                 lastLangUpdate = I18n.getLastTranslationUpdateTimeInMilliseconds //I18n wasStatCollector
                 cached_lore = I18n.translateToLocal(getUnlocalizedName + ".lore").split("\\\\n")
