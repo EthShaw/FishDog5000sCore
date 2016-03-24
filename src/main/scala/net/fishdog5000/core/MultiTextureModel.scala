@@ -34,10 +34,11 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.world.World
 import net.minecraftforge.client.event.ModelBakeEvent
 
-class MultiTextureModel(texture_strs: Array[String], default_texture: String, baseloc: ModelResourceLocation) extends ItemOverrideList(new util.ArrayList[ItemOverride]()) with IBakedModel {
+class MultiTextureModel(texture_strs: Array[String], default_texture: String, baseloc: ModelResourceLocation) extends IBakedModel {
     var currentTexture = default_texture
     var basemodels: Map[String, IBakedModel] = Map.empty
     var currentModel: IBakedModel = null
+    private val overrideList = new CustomOverrideList
 
     def modelReload(event: ModelBakeEvent) = {
         basemodels = Map.empty
@@ -73,13 +74,16 @@ class MultiTextureModel(texture_strs: Array[String], default_texture: String, ba
 
     private[core] def getBaseModelLoc: ModelResourceLocation = baseloc
 
-    override def getOverrides: ItemOverrideList = this
+    override def getOverrides: ItemOverrideList = overrideList
 
-    override def applyOverride(stack: ItemStack, worldIn: World, entityIn: EntityLivingBase) =
-        new ModelResourceLocation(currentTexture, "inventory")
+    private class CustomOverrideList extends ItemOverrideList(new util.ArrayList[ItemOverride]()) {
+        override def applyOverride(stack: ItemStack, worldIn: World, entityIn: EntityLivingBase) =
+            new ModelResourceLocation(currentTexture, "inventory")
 
-    override def handleItemState(originalModel: IBakedModel, stack: ItemStack, world: World, entity: EntityLivingBase) =
-        currentModel
+        override def handleItemState(originalModel: IBakedModel, stack: ItemStack, world: World, entity: EntityLivingBase) =
+            currentModel
+    }
+
 }
 
 object MultiTextureModels {

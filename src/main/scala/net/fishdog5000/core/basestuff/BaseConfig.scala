@@ -33,7 +33,7 @@ abstract class BaseConfig(log: Logger) extends IBaseConfig {
     def getConfigInteger(name: String, comment: String, defaultvalue: Int, config: Configuration, catagory: String): Int = {
         logger.info("Getting String..." + name + "...value:")
         val property = config.get(catagory, name, defaultvalue)
-        property.comment = comment
+        property.setComment(comment)
         val value = property.getInt
         logger.info(value)
         value
@@ -53,7 +53,7 @@ abstract class BaseConfig(log: Logger) extends IBaseConfig {
     def getConfigBool(name: String, comment: String, defaultvalue: Boolean, config: Configuration, catagory: String): Boolean = {
         logger.info("Getting bool..." + name + "...value:")
         val property = config.get(catagory, name, defaultvalue)
-        property.comment = comment
+        property.setComment(comment)
         val value = property.getBoolean(defaultvalue)
         logger.info(value)
         value
@@ -62,7 +62,7 @@ abstract class BaseConfig(log: Logger) extends IBaseConfig {
     def getConfigString(name: String, comment: String, defaultvalue: String, config: Configuration, catagory: String): String = {
         logger.info("Getting String..." + name + "...value:")
         val property = config.get(Configuration.CATEGORY_GENERAL, name, defaultvalue)
-        property.comment = comment
+        property.setComment(comment)
         val value = property.getString
         logger.info(value)
         value

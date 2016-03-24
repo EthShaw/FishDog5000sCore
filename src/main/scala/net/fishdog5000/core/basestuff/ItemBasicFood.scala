@@ -29,9 +29,9 @@ import net.minecraft.item.{ItemFood, ItemStack}
 import net.minecraft.potion.{Potion, PotionEffect}
 import net.minecraft.world.World
 
-class ItemBasicFood(unlocalizedname: String, tab: CreativeTabs, healAmount: Int, saturation: Float,
-                    canFeedToWolf: Boolean, effects: Array[Potion], duration: Array[Int], amplifiers: Array[Int], probability: Float,
-                    lore: Boolean, MODID: String) extends ItemFood(healAmount, saturation, canFeedToWolf) with IBaseItem {
+class ItemBasicFood(unlocalizedname: String, tab: CreativeTabs, healAmount: Int, saturation: Float, canFeedToWolf: Boolean,
+                    effects: Array[PotionEffectGroup], probability: Float, lore: Boolean, MODID: String
+                   ) extends ItemFood(healAmount, saturation, canFeedToWolf) with IBaseItem {
 
     setUnlocalizedName(MODID + "." + unlocalizedname)
     setCreativeTab(tab)
@@ -44,12 +44,15 @@ class ItemBasicFood(unlocalizedname: String, tab: CreativeTabs, healAmount: Int,
         multitexture.setCurrentTexture(MODID + ":" + texture)
 
     def this(unlocalizedname: String, tab: CreativeTabs, healAmount: Int, saturation: Float,
-             canFeedToWolf: Boolean, effects: Array[Potion], duration: Array[Int], amplifiers: Array[Int], probability: Float,
-             MODID: String) =
-        this(unlocalizedname, tab, healAmount, saturation, canFeedToWolf, effects, duration, amplifiers, probability, false, MODID)
+             canFeedToWolf: Boolean, effects: Array[PotionEffectGroup], probability: Float, MODID: String) =
+        this(unlocalizedname, tab, healAmount, saturation, canFeedToWolf, effects, probability, false, MODID)
+
+    def this(unlocalizedname: String, tab: CreativeTabs, healAmount: Int, saturation: Float,
+             canFeedToWolf: Boolean, effects: Array[PotionEffectGroup], MODID: String) =
+        this(unlocalizedname, tab, healAmount, saturation, canFeedToWolf, effects, 0.0F, false, MODID)
 
     def this(unlocalizedname: String, tab: CreativeTabs, healAmount: Int, saturation: Float, canFeedToWolf: Boolean, lore: Boolean, MODID: String) =
-        this(unlocalizedname, tab, healAmount, saturation, canFeedToWolf, null, null, null, 0F, lore, MODID)
+        this(unlocalizedname, tab, healAmount, saturation, canFeedToWolf, null, 0.0F, lore, MODID)
 
     def this(unlocalizedname: String, tab: CreativeTabs, healAmount: Int, saturation: Float, canFeedToWolf: Boolean, MODID: String) =
         this(unlocalizedname, tab, healAmount, saturation, canFeedToWolf, false, MODID)
@@ -57,10 +60,21 @@ class ItemBasicFood(unlocalizedname: String, tab: CreativeTabs, healAmount: Int,
 
     override def onFoodEaten(itemstack: ItemStack, world: World, player: EntityPlayer) {
         if (effects != null)
-            if (player.getRNG.nextInt(100) <= probability)
-                for (i <- effects.indices)
-                    player.addPotionEffect(new PotionEffect(effects(i), duration(i), amplifiers(i)))
+            for (effect <- effects)
+                if (probability == 0.0F) effect.applyEffect(player)
+                else effect.applyEffect(player, probability)
 
         super.onFoodEaten(itemstack, world, player)
     }
+
+}
+
+class PotionEffectGroup(effect: Potion, duration: Int, amplifier: Int, probability: Double) {
+    def this(effect: Potion, duration: Int, amplifier: Int) = this(effect, duration, amplifier, 0.0D)
+
+    def applyEffect(player: EntityPlayer): Unit = applyEffect(player, probability)
+
+    def applyEffect(player: EntityPlayer, chance: Double) =
+        if (Math.random() * 100 < chance)
+            player.addPotionEffect(new PotionEffect(effect, duration, amplifier))
 }

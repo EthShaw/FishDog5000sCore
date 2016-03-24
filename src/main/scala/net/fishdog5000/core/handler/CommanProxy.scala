@@ -27,9 +27,7 @@ import net.fishdog5000.core.FishdogsCore
 import net.minecraft.block.Block
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
-import net.minecraft.client.renderer.entity.RenderTNTPrimed
 import net.minecraft.item.Item
-import net.minecraftforge.fml.client.registry.RenderingRegistry
 import net.minecraftforge.fml.common.registry.EntityRegistry
 
 trait CommonProxy {
@@ -69,7 +67,7 @@ class ClientProxy extends CommonProxy {
         val rm = Minecraft.getMinecraft.getRenderManager
         //RenderingRegistry.registerEntityRenderingHandler(classOf[EntityFallingTileEntity], new RenderFallingBlock(rm))
         //RenderingRegistry.registerEntityRenderingHandler(classOf[EntityFlexibleFallingBlock], new RenderFallingBlock(rm))
-        RenderingRegistry.registerEntityRenderingHandler(classOf[Nothing], new RenderTNTPrimed(rm))
+        //RenderingRegistry.registerEntityRenderingHandler(classOf[Nothing], new RenderTNTPrimed(rm))
     }
 
     override def registerBlockRenderer(block: Block, meta: Int, name: String, modid: String) =

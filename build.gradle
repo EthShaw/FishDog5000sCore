@@ -59,11 +59,11 @@ archivesBaseName = config.core_archivesBaseName
 version = config.core_major + "." + config.core_minor + "." + config.core_patch + "-" + config.core_release_type + "+" + ext.buildNumber
 group = config.group
 
-
-build {
+task storeConf {
     prop.store(confFile.newWriter(), null)
 }
 
+build.dependsOn storeConf
 build.dependsOn licenseFormat
 
 minecraft {

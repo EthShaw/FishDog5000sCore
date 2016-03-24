@@ -61,12 +61,13 @@ public class EntityFlexibleTNTPrimed extends EntityTNTPrimed {
             motionY *= -0.5D;
         }
 
-        if (/*fuse-- <= 0 todo fix*/ true) {
-            setDead();
+        int fuse = getFuse();
 
-            if (!worldObj.isRemote) {
+        if (fuse <= 0) {
+            setFuse(fuse - 1);
+            setDead();
+            if (!worldObj.isRemote)
                 explode();
-            }
         } else {
             handleWaterMovement();
             worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY + 0.5D, posZ, 0.0D, 0.0D, 0.0D);

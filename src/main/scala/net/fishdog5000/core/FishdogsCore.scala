@@ -63,6 +63,8 @@ object FishdogsCore {
     def preInit(event: FMLPreInitializationEvent) = {
         Log.logger = event.getModLog
         Log.info("###################### FISHDOG5000'S CORE STARTING ######################")
+        proxy.preInit()
+        proxy.registerRenderers()
 
         //Log.info("attempting to add version checker support...")
         //FMLInterModComms.sendRuntimeMessage(MODID, "VersionChecker", "addVersionCheck", CoreConstants.VERSIONS_URL)
@@ -77,7 +79,6 @@ object FishdogsCore {
     def load(event: FMLInitializationEvent) = {
         Log.info("Initializing stuff...")
         proxy.init()
-        proxy.registerRenderers()
 
         //testitem = new BaseItem("testitem", CreativeTabs.tabMaterials, true, MODID)
         //registerItem(testitem, MODID)
