@@ -11,7 +11,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
         classpath("gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.12.1") {
             exclude module: 'guava'
         }

@@ -40,6 +40,6 @@ class CoreJEIPlugin extends IModPlugin {
         val recipeRegistry = jeiRuntime.getRecipeRegistry
         for (recipe <- DurabilityItemCrafting.recipes)
             recipeRegistry.addRecipe(recipe.parent)
-        DurabilityItemCrafting.recipes = null
+        //DurabilityItemCrafting.recipes = null
     }
 }

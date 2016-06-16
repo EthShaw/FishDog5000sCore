@@ -23,12 +23,11 @@
   */
 package net.fishdog5000.core
 
-import net.fishdog5000.core.basestuff.{BaseItem, IBaseBlock, IBaseItem}
+import net.fishdog5000.core.basestuff.{IBaseBlock, IBaseItem}
 import net.fishdog5000.core.handler._
 import net.minecraft.block.material.Material
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.block.model.{ModelBakery, ModelResourceLocation}
-import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.Entity
 import net.minecraft.entity.effect.EntityLightningBolt
 import net.minecraft.init.{Blocks, Items}
@@ -85,14 +84,14 @@ object FishdogsCore {
         //setItemMultitexture(testitem, "item.testitem", MODID, Array("minecraft:flint", "minecraft:diamond"), "minecraft:diamond")
 
         if (registeredpower) {
-            powerblock = new BlockPowerBlock(Material.iron)
+            powerblock = new BlockPowerBlock(Material.IRON)
 
             registerBlock(powerblock, "BlockPowerBlock", MODID)
 
             GameRegistry.addRecipe(new ItemStack(powerblock), "XXX", "***", "XXX",
-                new Character('X'), Blocks.redstone_block, new Character('*'), Items.coal)
+                new Character('X'), Blocks.REDSTONE_BLOCK, new Character('*'), Items.COAL)
             GameRegistry.addRecipe(new ItemStack(powerblock), "XXX", "***", "XXX",
-                new Character('X'), Blocks.redstone_block, new Character('*'), new ItemStack(Items.coal, 1, 1))
+                new Character('X'), Blocks.REDSTONE_BLOCK, new Character('*'), new ItemStack(Items.COAL, 1, 1))
         }
     }
 
@@ -100,7 +99,7 @@ object FishdogsCore {
         registerBlock(block, name, MODID, 0)
 
     def registerBlock(block: IBaseBlock, name: String, MODID: String, metadata: Int): Unit = {
-        GameRegistry.registerBlock(block, name)
+        GameRegistry.register(block.setRegistryName(MODID, name))
         proxy.registerBlockRenderer(block, metadata, name, MODID)
     }
 
@@ -160,10 +159,10 @@ object FishdogsCore {
         }
     }
 
-    @SideOnly(Side.SERVER)
-    @EventHandler
-    def serverLoad(event: FMLServerStartingEvent) =
-        event.registerServerCommand(OreDictionaryLister)
+    //@SideOnly(Side.SERVER)
+    //@EventHandler
+    //def serverLoad(event: FMLServerStartingEvent) =
+        //event.registerServerCommand(OreDictionaryLister)
 
     def lightning(chat_msg: String, x: Double, y: Double, z: Double, world: World, times: Int) {
         for (i <- 0 until times)
@@ -183,7 +182,7 @@ object FishdogsCore {
     def registerItem(item: IBaseItem, name: String, MODID: String): Unit = registerItem(item, name, MODID, 0)
 
     def registerItem(item: IBaseItem, name: String, MODID: String, metadata: Int): Unit = {
-        GameRegistry.registerItem(item, name)
+        GameRegistry.register(item.setRegistryName(MODID, name))
         proxy.registerItemRenderer(item, metadata, name, MODID)
     }
 

@@ -39,7 +39,7 @@ class BlockPowerBlock(material: Material) extends Block(material) with IBaseBloc
     private var golemBasePattern: BlockPattern = _
     setHardness(2.0F)
     setUnlocalizedName(FishdogsCore.MODID + ":powerblock")
-    setCreativeTab(CreativeTabs.tabMaterials)
+    setCreativeTab(CreativeTabs.MATERIALS)
 
     def getName = "tile.powerblock"
 
@@ -57,7 +57,7 @@ class BlockPowerBlock(material: Material) extends Block(material) with IBaseBloc
         if (patternhelper != null) {
             for (i <- 0 until getGolemBasePattern.getPalmLength)
                 for (k <- 0 until getGolemBasePattern.getThumbLength)
-                    world.setBlockState(patternhelper.translateOffset(i, k, 0).getPos, Blocks.air.getDefaultState, 2)
+                    world.setBlockState(patternhelper.translateOffset(i, k, 0).getPos, Blocks.AIR.getDefaultState, 2)
 
             val blockpos1 = patternhelper.translateOffset(1, 2, 0).getPos
             val irongolem = new EntityIronGolem(world)
@@ -72,7 +72,7 @@ class BlockPowerBlock(material: Material) extends Block(material) with IBaseBloc
             for (j <- 0 until getGolemBasePattern.getPalmLength) {
                 for (l <- 0 until getGolemBasePattern.getThumbLength) {
                     val blockworldstate2 = patternhelper.translateOffset(j, l, 0)
-                    world.notifyNeighborsRespectDebug(blockworldstate2.getPos, Blocks.air)
+                    world.notifyNeighborsRespectDebug(blockworldstate2.getPos, Blocks.AIR)
                 }
             }
         }
@@ -134,7 +134,7 @@ class BlockPowerBlock(material: Material) extends Block(material) with IBaseBloc
 
     protected def getGolemBasePattern: BlockPattern = {
         if (golemBasePattern == null)
-            golemBasePattern = FactoryBlockPattern.start().aisle("~ ~", "###", "~#~").where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.iron_block))).where('~', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.air))).build()
+            golemBasePattern = FactoryBlockPattern.start().aisle("~ ~", "###", "~#~").where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.IRON_BLOCK))).where('~', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.AIR))).build()
 
         golemBasePattern
     }

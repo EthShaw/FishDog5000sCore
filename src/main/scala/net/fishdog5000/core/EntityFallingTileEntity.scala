@@ -51,7 +51,7 @@ class EntityFallingTileEntity(world: World, x: Double, y: Double, z: Double, blo
         }
         val block = blockstate.getBlock
 
-        if (blockstate.getMaterial == Material.air) {
+        if (blockstate.getMaterial == Material.AIR) {
             setDead()
         }
         else {
@@ -93,7 +93,7 @@ class EntityFallingTileEntity(world: World, x: Double, y: Double, z: Double, blo
                     motionZ *= 0.699999988079071D
                     motionY *= -0.5D
 
-                    if (worldObj.getBlockState(pos).getBlock != Blocks.piston_extension) {
+                    if (worldObj.getBlockState(pos).getBlock != Blocks.PISTON_EXTENSION) {
                         setDead()
                         if (worldObj.canBlockBePlaced(block, pos, true, EnumFacing.UP, null, null) && !BlockFalling.canFallThrough(worldObj.getBlockState(pos.down)) && worldObj.setBlockState(pos, blockstate, 3)) {
                             block match {
@@ -149,7 +149,7 @@ class EntityFallingTileEntity(world: World, x: Double, y: Double, z: Double, blo
         newstate.getBlock.breakBlock(worldObj, blockPos, newstate)
 
         worldObj.setBlockToAir(blockPos)
-        if (oldBlockState.getBlock != Blocks.air)
+        if (oldBlockState.getBlock != Blocks.AIR)
             worldObj.setBlockState(blockPos, oldBlockState)
         if (oldnbt != null)
             placeTileEntity(blockPos, oldnbt)

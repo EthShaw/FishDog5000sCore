@@ -25,7 +25,6 @@ package net.fishdog5000.core.handler
 
 import net.fishdog5000.core.MultiTextureModel
 import net.minecraftforge.client.event.ModelBakeEvent
-import net.minecraftforge.event.entity.player.EntityInteractEvent
 import net.minecraftforge.fml.common.eventhandler.{EventPriority, SubscribeEvent}
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 

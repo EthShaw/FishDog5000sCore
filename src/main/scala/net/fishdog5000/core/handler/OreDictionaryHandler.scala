@@ -29,18 +29,18 @@ import net.minecraftforge.oredict.OreDictionary
 
 object OreDictionaryHandler {
     def registerItemOres() {
-        OreDictionary.registerOre("listAllmilk", Items.milk_bucket)
-        OreDictionary.registerOre("listAllegg", Items.egg)
-        OreDictionary.registerOre("listAllwater", Items.water_bucket)
-        OreDictionary.registerOre("listAllwater", new ItemStack(Items.potionitem, 1, 0))
-        OreDictionary.registerOre("bowlWood", Items.bowl)
-        OreDictionary.registerOre("bucketIron", Items.bucket)
-        OreDictionary.registerOre("itemSugar", Items.sugar)
-        OreDictionary.registerOre("foodSugar", Items.sugar)
-        OreDictionary.registerOre("itemLeather", Items.leather)
-        OreDictionary.registerOre("foodRawBeef", Items.beef)
-        OreDictionary.registerOre("foodBeefRaw", Items.beef)
-        OreDictionary.registerOre("foodBread", Items.bread)
+        OreDictionary.registerOre("listAllmilk", Items.MILK_BUCKET)
+        OreDictionary.registerOre("listAllegg", Items.EGG)
+        OreDictionary.registerOre("listAllwater", Items.WATER_BUCKET)
+        OreDictionary.registerOre("listAllwater", new ItemStack(Items.POTIONITEM, 1, 0))
+        OreDictionary.registerOre("bowlWood", Items.BOWL)
+        OreDictionary.registerOre("bucketIron", Items.BUCKET)
+        OreDictionary.registerOre("itemSugar", Items.SUGAR)
+        OreDictionary.registerOre("foodSugar", Items.SUGAR)
+        OreDictionary.registerOre("itemLeather", Items.LEATHER)
+        OreDictionary.registerOre("foodRawBeef", Items.BEEF)
+        OreDictionary.registerOre("foodBeefRaw", Items.BEEF)
+        OreDictionary.registerOre("foodBread", Items.BREAD)
     }
 
     def registerBlockOres() {

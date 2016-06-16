@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Random;
 
 public class DurabilityItemCrafting implements IRecipe {
-    public static List<DurabilityItemCrafting> recipes = new ArrayList<DurabilityItemCrafting>();
+    public static final List<DurabilityItemCrafting> recipes = new ArrayList<DurabilityItemCrafting>();
     public final IRecipe parent;
     private final int damage_amount;
 

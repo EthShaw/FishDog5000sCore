@@ -64,7 +64,7 @@ object OreDictionaryLister extends CommandBase with ICommand {
         icommandsender match {
             case player: EntityPlayer =>
 
-                val book = new ItemStack(Items.written_book)
+                val book = new ItemStack(Items.WRITTEN_BOOK)
                 val bookPages = new NBTTagList()
 
                 //if(str.equalsIgnoreCase("blocks"))
