@@ -35,7 +35,7 @@ license {
 
 //Load config
 file "build.properties" withReader {
-    def prop = new Properties()
+    ext.prop = new Properties()
     prop.load(it)
     ext.config = new ConfigSlurper().parse prop
 }
@@ -59,11 +59,13 @@ archivesBaseName = config.core_archivesBaseName
 version = config.core_major + "." + config.core_minor + "." + config.core_patch + "-" + config.core_release_type + "+" + ext.buildNumber
 group = config.group
 
-task storeConf {
-    prop.store(confFile.newWriter(), null)
+if (confFile.exists()) {
+	task storeConf {
+		prop.store(confFile.newWriter(), null)
+	}
+	build.dependsOn storeConf
 }
 
-build.dependsOn storeConf
 build.dependsOn licenseFormat
 
 minecraft {
