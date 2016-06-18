@@ -1,0 +1,15 @@
+sudo: required
+dist: trusty
+
+language: scala
+scala: 2.11.1
+
+jdk:
+  - openjdk8
+  - oraclejdk8
+
+install: ./gradlew setupCIWorkspace
+script: ./gradlew build
+
+notifications:
+  email: false
