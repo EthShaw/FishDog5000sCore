@@ -83,7 +83,7 @@ minecraft {
     replaceIn 'src/main/scala/net/fishdog5000/core/FishdogsCore.scala'
     replace "@COREVERSION@", project.version
     replace "@MCVERSION@", config.minecraft_version
-    replace 'acceptedMinecraftVersions = ""', 'acceptedMinecraftVersions = "' + config.minecraft_version + '"'
+    replace 'acceptedMinecraftVersions = ""', 'acceptedMinecraftVersions = "1.9.4,' + config.minecraft_version + '"'
     //replace ")//@DEPEND@//(", ", "
     //replace "@FORGEVERSION@", config.forge_version
 
