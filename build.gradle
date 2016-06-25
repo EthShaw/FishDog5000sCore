@@ -154,8 +154,10 @@ processResources {
 }
 
 idea {
-    project {
-        jdkName = '1.8'
-        languageLevel = '1.8'
+    if(project != null) {
+        project {
+            jdkName = '1.8'
+            languageLevel = '1.8'
+        }
     }
 }
