@@ -60,10 +60,10 @@ version = config.core_major + "." + config.core_minor + "." + config.core_patch 
 group = config.group
 
 if (confFile.exists()) {
-	task storeConf {
-		prop.store(confFile.newWriter(), null)
-	}
-	build.dependsOn storeConf
+    task storeConf {
+        prop.store(confFile.newWriter(), null)
+    }
+    build.dependsOn storeConf
 }
 
 build.dependsOn licenseFormat
@@ -83,7 +83,7 @@ minecraft {
     replaceIn 'src/main/scala/net/fishdog5000/core/FishdogsCore.scala'
     replace "@COREVERSION@", project.version
     replace "@MCVERSION@", config.minecraft_version
-    replace 'acceptedMinecraftVersions = ""', 'acceptedMinecraftVersions = "1.9.4,' + config.minecraft_version + '"'
+    replace 'acceptedMinecraftVersions = ""', 'acceptedMinecraftVersions = "' + config.supported_versions + '"'
     //replace ")//@DEPEND@//(", ", "
     //replace "@FORGEVERSION@", config.forge_version
 
@@ -154,7 +154,7 @@ processResources {
 }
 
 idea {
-    if(project != null) {
+    if (project != null) {
         project {
             jdkName = '1.8'
             languageLevel = '1.8'
